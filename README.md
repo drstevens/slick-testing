@@ -7,4 +7,4 @@ code in a thread on the [Slick Mailing List](https://groups.google.com/forum/#!t
 
 ## Dependecies
 
-See <build.sbt>
+See [build.sbt](build.sbt)
