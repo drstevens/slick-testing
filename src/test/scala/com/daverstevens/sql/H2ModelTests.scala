@@ -15,9 +15,9 @@ class H2ModelTests extends Specification with H2Testing {
       import model.driver.simple._
       import model.implicitMappings._
 
-      val group1 = model.groupTable.filter(_.id === exGroup1.id).firstOption().map(Group.tupled)
-      val group2 = model.groupTable.filter(_.id === exGroup2.id).firstOption().map(Group.tupled)
-      val group3 = model.groupTable.filter(_.id === exGroup3.id).firstOption().map(Group.tupled)
+      val group1 = model.groupTable.filter(_.id === exGroup1.id).firstOption.map(Group.tupled)
+      val group2 = model.groupTable.filter(_.id === exGroup2.id).firstOption.map(Group.tupled)
+      val group3 = model.groupTable.filter(_.id === exGroup3.id).firstOption.map(Group.tupled)
 
       exGroup1.name ==== "group1" and
       exGroup2.name ==== "group2" and
@@ -41,7 +41,7 @@ class H2ModelTests extends Specification with H2Testing {
 
       val groups = model.groupTable
         .filter(g => g.id === exGroup1.id || g.id === exGroup2.id || g.id === exGroup3.id)
-        .list().map(Group.tupled)
+        .list.map(Group.tupled)
       groups must containAllOf(List(exGroup1, exGroup2, exGroup3))
     }
   }
