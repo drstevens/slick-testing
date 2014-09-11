@@ -17,9 +17,7 @@ sealed trait SqlModel extends SlickDriver {
 
   object implicitMappings {
     implicit def groupIdMapper = MappedColumnType.base[GroupId, Long](_.value,v => GroupId(v))
-    implicit def groupNameMapper = MappedColumnType.base[GroupName, String](_.value,v => GroupName(v))
     implicit def roleIdMapper = MappedColumnType.base[RoleId, Long](_.value,v => RoleId(v))
-    implicit def roleNameMapper = MappedColumnType.base[RoleName, String](_.value,v => RoleName(v))
   }
 
   import implicitMappings._
@@ -33,29 +31,25 @@ sealed trait SqlModel extends SlickDriver {
 
   def dropTables()(implicit session: Session): Unit = ddl.drop
 
-  class GroupTable(tag: Tag) extends Table[Group](tag, "Group") {
+  class GroupTable(tag: Tag) extends Table[(GroupId, String)](tag, "Group") {
     def id = column[GroupId]("ID", O.AutoInc, O.PrimaryKey)
-    def name = column[GroupName]("NAME", O.NotNull)
-    def someString = column[String]("SOMESTRING", O.NotNull)
-    def someInt = column[Int]("SOMEINT", O.NotNull)
+    def name = column[String]("NAME", O.NotNull)
 
-    def * = (id, name, someString, someInt) <>((Group.apply _).tupled, Group.unapply)
+    def * = (id, name)
   }
   object groupTable extends TableQuery[GroupTable](new GroupTable(_)) {
-    def insertAndGet(name: GroupName, someString: String, someInt: Int)(implicit s: Session): Group = {
-      val g = Group(GroupId(1l), name, someString, someInt)
-      val id = (groupTable returning groupTable.map(_.id)).insert(g)
-      Group.idLens.set(g, id)
-    }
+    def foo(id: GroupId) = groupTable.filter(_.id === id)
+    def insertAndGet(name: String)(implicit s: Session): Group = Group((groupTable returning groupTable.map(_.id)).insert(GroupId(1l), name), name)
   }
 
-  class RoleTable(tag: Tag) extends Table[(RoleId, RoleName)](tag, "Role") {
+  class RoleTable(tag: Tag) extends Table[(RoleId, String)](tag, "Role") {
     def id = column[RoleId]("ID", O.AutoInc, O.PrimaryKey)
-    def name = column[RoleName]("NAME", O.NotNull)
+    def name = column[String]("NAME", O.NotNull)
 
     def * = (id, name)
   }
   object roleTable extends TableQuery[RoleTable](new RoleTable(_)) {
+    def foo(id: RoleId) = roleTable.filter(_.id === id)
   }
 
   class GroupRoleTable(tag: Tag) extends Table[(GroupId, RoleId)](tag, "GroupRole") {
