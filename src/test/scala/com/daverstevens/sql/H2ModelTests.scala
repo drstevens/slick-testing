@@ -37,13 +37,6 @@ class H2ModelTests extends Specification with H2Testing {
       import model.driver.simple._
       import model.implicitMappings._
 
-      //implicit def stringColumnExtensionMethods(c: Column[GroupName]) = new StringColumnExtensionMethods[GroupName](c)
-      // Uncommenting above line results in the following error
-      // [error] /Users/dave/workspace/slick-testing/src/test/scala/com/daverstevens/sql/H2ModelTests.scala:42: Cannot perform option-mapped operation
-      // [error]       with type: (com.daverstevens.model.GroupName, com.daverstevens.model.GroupName) => R
-      // [error]   for base type: (String, String) => Boolean
-
-      // Ultimately I would like to define a case class PartialGroupName and use this instead but first things first
       val group1 = model.groupTable.filter(_.nameAsString like "%group1%").firstOption
 
       exGroup1.name ==== GroupName("group1") and
