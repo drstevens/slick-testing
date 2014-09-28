@@ -44,7 +44,7 @@ class H2ModelTests extends Specification with H2Testing {
       // [error]   for base type: (String, String) => Boolean
 
       // Ultimately I would like to define a case class PartialGroupName and use this instead but first things first
-      val group1 = model.groupTable.filter(_.name like GroupName("%group1%")).firstOption
+      val group1 = model.groupTable.filter(_.nameAsString like "%group1%").firstOption
 
       exGroup1.name ==== GroupName("group1") and
         group1 ==== Some(exGroup1)

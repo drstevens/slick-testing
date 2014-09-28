@@ -36,6 +36,7 @@ sealed trait SqlModel extends SlickDriver {
   class GroupTable(tag: Tag) extends Table[Group](tag, "Group") {
     def id = column[GroupId]("ID", O.AutoInc, O.PrimaryKey)
     def name = column[GroupName]("NAME", O.NotNull)
+    def nameAsString = column[String]("NAME", O.NotNull)
     def someString = column[String]("SOMESTRING", O.NotNull)
     def someInt = column[Int]("SOMEINT", O.NotNull)
 
