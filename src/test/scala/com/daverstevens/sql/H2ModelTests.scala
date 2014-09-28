@@ -37,6 +37,7 @@ class H2ModelTests extends Specification with H2Testing {
       import model.driver.simple._
       import model.implicitMappings._
 
+      //The following results in a class cast exception
       val group1 = model.groupTable.filter(_.nameAsString like "%group1%").firstOption
 
       exGroup1.name ==== GroupName("group1") and
