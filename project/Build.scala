@@ -6,7 +6,7 @@ object SlickTestingBuild extends Build {
   lazy val slickTesting = Project(
     id = "slick-testing",
     base = file("."),
-    settings = Project.defaultSettings ++ Seq(
+    settings = Seq(
       name := "Slick Testing",
       organization := "com.daverstevens",
       version := "0.1-SNAPSHOT",
